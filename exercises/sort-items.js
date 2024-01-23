@@ -1,8 +1,8 @@
 /**
  * SORTING NODES WITHIN A CONTAINER
  * Please, make sure to read the following files in the exercises-info folder before you start
- * * "02 SortingNode.md" 
-*/
+ * * "02 SortingNode.md"
+ */
 
 /**
  * @task
@@ -14,7 +14,6 @@
 // Your code goes here...
 const allItems = document.querySelectorAll(".item");
 
-
 /**
  * @task
  * Select all sort buttons by class of "sortBtn" as a NodeList.
@@ -23,8 +22,7 @@ const allItems = document.querySelectorAll(".item");
  */
 
 // Your code goes here...
-const sortBtn = document.querySelector(".sortBtn");
-
+const sortBtn = document.querySelectorAll(".sortBtn");
 
 /**
  * @task
@@ -39,21 +37,21 @@ const sortBtn = document.querySelector(".sortBtn");
 
 // Your code goes here...
 const sortData = (direction) => {
-    const main = document.getElementById("main");
-    const allItems = document.querySelectorAll(".item");
-    const itemsArray = Array.from(allItems);
-    const sortedItems = itemsArray.sort((a, b) => {
-      if (direction === "asc") {
-        return parseInt(a.id) - parseInt(b.id);
-      } else if (direction === "desc") {
-        return parseInt(b.id) - parseInt(a.id);
-      }
-    });
-    main.innerHTML = "";
-    sortedItems.forEach((item) => main.appendChild(item));
-  };
+  const main = document.getElementById("main");
+  const allItems = document.querySelectorAll(".item");
+  const itemsArray = Array.from(allItems);
+  const sortedItems = itemsArray.sort((a, b) => {
 
-
+    
+    if (direction === "asc") {
+      return parseInt(a.id) - parseInt(b.id);
+    } else if (direction === "desc") {
+      return parseInt(b.id) - parseInt(a.id);
+    }
+  });
+  main.innerHTML = "";
+  sortedItems.forEach((item) => main.appendChild(item));
+};
 
 /**
  * @task
@@ -65,9 +63,8 @@ const sortData = (direction) => {
 
 // Your code goes here...
 sortBtn.forEach((item) => {
-    item.addEventListener("click", () => {
-      const sortDir = item.dataset.sortdir;
-      sortData(sortDir);
-    });
+  item.addEventListener("click", () => {
+    const sortDir = item.dataset.sortdir;
+    sortData(sortDir);
   });
-
+});

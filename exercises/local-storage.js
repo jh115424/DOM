@@ -23,6 +23,75 @@
  * * Make all the items that are listed in the favorites LS save the red background color when the page is reloaded
  */
 
+localStorage.setItem('favorites', 'light');
+
+const theme = localStorage.getItem('myFavorites');
+
+const container = document.querySelector('cards-container');
+
+localStorage.removeItem('myFavorites');
+localStorage.clear();
+
+localStorage.setItem('favorites', 'light');
+
+const newItem = 'light';
+
+let storageData = localStorage.getItem('favorites');
+
+storageData += `,${newItem}`;
+
+localStorage.setItem('favorites', storageData);
+
+const itemToDelete = 'light';
+
+const storageArr = localStorage.getItem('favorites').split(' ');
+
+storageArr.splice(storageArr.indexOf(itemToDelete), 1).join(',');
+
+localStorage.setItem('favorites', storageArr);
+
+
+const data = {
+    item: [1, 2, 3, 4, 5]
+}
+
+localStorage.setItem('favorites', JSON.stringify(data));
+
+const storageFavData = localStorage.getItem('favorites');
+
+const updatedData = JSON.parse(storageFavData);
+console.log(updatedData);
+
+
+updatedData.items = data.item.filter(item => item!== 3);
+localStorage.setItem('favorites', JSON.stringify(updatedData));
+
+
+
+document.addEventListener('click', (event) => {
+
+  const item = event.target;
+
+  if (item.id != 'favorite') {
+
+    if (item.style.backgroundColor === 'white') {
+
+      item.style.backgroundColor = 'red';
+
+      localStorage.setItem('favorites', item.id);
+
+    } else {
+
+      item.style.backgroundColor = 'white';
+
+      localStorage.removeItem('favorites', item.id);
+
+    }
+
+  }
+
+})
+
 /**
  * @hint
  * Here is a plan of how you can structure your code. You can follow it or choose your own way to go
@@ -38,3 +107,24 @@
  */
 
 // Your code goes here...
+
+
+
+
+
+
+// const container = document.querySelector('cards-container');
+
+// function setRedBackground(id) {
+//   const item = document.getElementById(id);
+//   item.style.backgroundColor = 'red';
+// }
+// console.log('setRedBackground', container);
+
+// function addToFavorites(id) {
+//   localStorage.setItem('myFavorites', id);
+// }
+
+// function removeFromFavorites(id) {
+//   localStorage.removeItem('myFavorites', id);
+// }

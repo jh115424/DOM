@@ -23,74 +23,22 @@
  * * Make all the items that are listed in the favorites LS save the red background color when the page is reloaded
  */
 
-localStorage.setItem('favorites', 'light');
+const container = document.querySelector(".cardsContainer");
 
-const theme = localStorage.getItem('myFavorites');
-
-const container = document.querySelector('cards-container');
-
-localStorage.removeItem('myFavorites');
-localStorage.clear();
-
-localStorage.setItem('favorites', 'light');
-
-const newItem = 'light';
-
-let storageData = localStorage.getItem('favorites');
-
-storageData += `,${newItem}`;
-
-localStorage.setItem('favorites', storageData);
-
-const itemToDelete = 'light';
-
-const storageArr = localStorage.getItem('favorites').split(' ');
-
-storageArr.splice(storageArr.indexOf(itemToDelete), 1).join(',');
-
-localStorage.setItem('favorites', storageArr);
-
-
-const data = {
-    item: [1, 2, 3, 4, 5]
-}
-
-localStorage.setItem('favorites', JSON.stringify(data));
-
-const storageFavData = localStorage.getItem('favorites');
-
-const updatedData = JSON.parse(storageFavData);
-console.log(updatedData);
-
-
-updatedData.items = data.item.filter(item => item!== 3);
-localStorage.setItem('favorites', JSON.stringify(updatedData));
-
-
-
-document.addEventListener('click', (event) => {
-
-  const item = event.target;
-
-  if (item.id != 'favorite') {
-
-    if (item.style.backgroundColor === 'white') {
-
-      item.style.backgroundColor = 'red';
-
-      localStorage.setItem('favorites', item.id);
-
-    } else {
-
-      item.style.backgroundColor = 'white';
-
-      localStorage.removeItem('favorites', item.id);
-
-    }
-
+const setColorById = () => {
+  let storageData = localStorage.getItem("Favorites");
+  if (storageData) {
+    let favoritesIds = JSON.parse(storageData);
+    favoritesIds.forEach((itemId) => {
+      let itemElement = document.getElementById(itemId);
+      if (itemElement) {
+        itemElement.style.backgroundColor = "red";
+      }
+    });
   }
+};
 
-})
+setColorById();
 
 /**
  * @hint
@@ -108,23 +56,36 @@ document.addEventListener('click', (event) => {
 
 // Your code goes here...
 
+const addIdToFavorites = (id) => {
+  let storageData = localStorage.getItem("Favorites");
+  let favoritesIds = storageData ? JSON.parse(storageData) : [];
+  favoritesIds.push(id);
+  localStorage.setItem("Favorites", JSON.stringify(favoritesIds));
+};
 
+const deleteIdFromFavorites = (id) => {
+  let storageData = localStorage.getItem("Favorites");
+  let favoritesIds = storageData ? JSON.parse(storageData) : [];
+  favoritesIds = favoritesIds.filter((itemId) => itemId !== id);
+  localStorage.setItem("Favorites", JSON.stringify(favoritesIds));
+};
 
+const toggleColorAndFavorites = (e) => {
+  const item = e.target;
+  let storageData = localStorage.getItem("Favorites");
+  let favoritesIds = storageData ? JSON.parse(storageData) : [];
 
+  if (item.classList.contains("card")) {
+    if (favoritesIds.includes(item.id)) {
+      deleteIdFromFavorites(item.id);
+      item.style.backgroundColor = "";
+    } else {
+      addIdToFavorites(item.id);
+      item.style.backgroundColor = "red";
+    }
+  }
+  storageData = localStorage.getItem("Favorites");
+  favoritesIds = storageData ? JSON.parse(storageData) : [];
+};
 
-
-// const container = document.querySelector('cards-container');
-
-// function setRedBackground(id) {
-//   const item = document.getElementById(id);
-//   item.style.backgroundColor = 'red';
-// }
-// console.log('setRedBackground', container);
-
-// function addToFavorites(id) {
-//   localStorage.setItem('myFavorites', id);
-// }
-
-// function removeFromFavorites(id) {
-//   localStorage.removeItem('myFavorites', id);
-// }
+container.addEventListener("click", toggleColorAndFavorites);
